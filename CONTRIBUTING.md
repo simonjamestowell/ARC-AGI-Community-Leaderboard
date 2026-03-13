@@ -34,14 +34,12 @@ Do **not** create a new directory for updates — keep everything in your origin
 
 - `name` — unique display name for your method
 - `authors` — at least one author with a `name`
-- `harness_type` — one of: `agentic`, `harness`, `research`, `hybrid`
 - `description` — brief explanation of your approach
 - `code_url` — link to a **public** repository
-- `entry_command` — command to run your method (for documentation)
 - `versions` — at least one version entry with:
   - `version` — version string
   - `date` — date in YYYY-MM-DD format
-  - `models` — at least one model with `name` and `role`
+  - `models` — at least one model with `name`
   - `scores` — a mapping of benchmark to score (0-100), e.g. `arc-agi-2: 58.2`
 
 ### Optional Fields
@@ -49,7 +47,6 @@ Do **not** create a new directory for updates — keep everything in your origin
 - `citation` — how to reference your work
 - `paper_url` — link to a paper (must resolve if provided)
 - `twitter_url` — link to a tweet or thread (must resolve if provided)
-- `env_vars_required` — environment variables needed to run
 
 ### Guidelines
 

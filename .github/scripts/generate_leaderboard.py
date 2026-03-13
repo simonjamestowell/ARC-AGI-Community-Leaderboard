@@ -78,7 +78,7 @@ def load_submissions():
         # Format models from latest version
         models = latest.get("models", [])
         model_str = ", ".join(
-            f"{m.get('name', '?')} ({m.get('role', '?')})"
+            m.get('name', '?')
             for m in models if isinstance(m, dict)
         )
 
@@ -106,7 +106,6 @@ def load_submissions():
             "name": data.get("name", dirname),
             "authors": author_str,
             "authors_detail": authors_structured,
-            "type": data.get("harness_type", "?"),
             "description": data.get("description", ""),
             "best_scores": best_scores,
             "benchmarks": sorted(all_benchmarks),
@@ -145,14 +144,14 @@ def generate_table(entries):
         )
 
         header = f"### {label}\n"
-        table_header = "| Rank | Name | Authors | Type | Score | Models | Code |"
-        separator = "|------|------|---------|------|-------|--------|------|"
+        table_header = "| Rank | Name | Authors | Score | Models | Code |"
+        separator = "|------|------|---------|-------|--------|------|"
 
         rows = [header, table_header, separator]
         for i, entry in enumerate(benchmark_entries, 1):
             score = entry["best_scores"].get(arc_ver, 0)
             code_link = f"[Repo]({entry['code_url']})" if entry["code_url"] else ""
-            row = f"| {i} | {entry['name']} | {entry['authors']} | {entry['type']} | {score}% | {entry['models']} | {code_link} |"
+            row = f"| {i} | {entry['name']} | {entry['authors']} | {score}% | {entry['models']} | {code_link} |"
             rows.append(row)
 
         sections.append("\n".join(rows))
@@ -173,7 +172,6 @@ def generate_json(entries):
             "id": entry["id"],
             "name": entry["name"],
             "authors": entry["authors_detail"],
-            "harness_type": entry["type"],
             "description": entry["description"],
             "best_scores": entry["best_scores"],
             "benchmarks": entry["benchmarks"],

@@ -18,21 +18,12 @@ authors:
 # Citation (optional) — how to reference this work
 citation: ""
 
-# Type of approach: agentic | harness | research | hybrid
-harness_type: harness
-
 # Brief description of the method (1-3 sentences)
 description: >
   A brief description of what your method does and how it works.
 
 # Link to a public repository with the source code (required)
 code_url: "https://github.com/your-org/your-repo"
-
-# Command to run the submission (for documentation — ARC Prize does not execute submissions)
-entry_command: "python run.py --game_id {game_id}"
-
-# Environment variables needed to run (for documentation only)
-env_vars_required: []
 
 # Links (optional — but if provided, they must resolve)
 paper_url: ""
@@ -49,6 +40,5 @@ versions:
     changes: "Initial submission"
     models:
       - name: "Model Name"
-        role: "primary"
     scores:
       arc-agi-3: 0.0

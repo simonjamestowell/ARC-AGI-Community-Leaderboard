@@ -22,9 +22,8 @@ import requests
 # Configuration
 # ──────────────────────────────────────────────────────────────
 
-REQUIRED_TOP_LEVEL = ["name", "authors", "harness_type", "description", "code_url", "entry_command", "versions"]
+REQUIRED_TOP_LEVEL = ["name", "authors", "description", "code_url", "versions"]
 VALID_ARC_VERSIONS = {"arc-agi-1", "arc-agi-2", "arc-agi-3"}
-VALID_HARNESS_TYPES = {"agentic", "harness", "research", "hybrid"}
 OPTIONAL_URL_FIELDS = ["paper_url", "twitter_url"]
 DIR_NAME_PATTERN = re.compile(r"^[a-z0-9][a-z0-9\-]*[a-z0-9]$")
 LINK_CHECK_TIMEOUT = 10  # seconds
@@ -100,13 +99,6 @@ def validate_submission(filepath):
     # ── name ────────────────────────────────────────────────
     if not isinstance(data["name"], str) or len(data["name"].strip()) == 0:
         errors.append(ValidationError("name", "Must be a non-empty string"))
-
-    # ── harness_type ────────────────────────────────────────
-    if data["harness_type"] not in VALID_HARNESS_TYPES:
-        errors.append(ValidationError(
-            "harness_type",
-            f"Must be one of: {', '.join(sorted(VALID_HARNESS_TYPES))}. Got: '{data['harness_type']}'"
-        ))
 
     # ── description ─────────────────────────────────────────
     if not isinstance(data["description"], str) or len(data["description"].strip()) == 0:
@@ -200,8 +192,6 @@ def validate_submission(filepath):
                             continue
                         if "name" not in model or not model["name"]:
                             errors.append(ValidationError(f"{mprefix}.name", "Model name is required"))
-                        if "role" not in model or not model["role"]:
-                            errors.append(ValidationError(f"{mprefix}.role", "Model role is required"))
 
     # ── Duplicate name check across repo ────────────────────
     submissions_dir = os.path.join(os.path.dirname(filepath), "..")
