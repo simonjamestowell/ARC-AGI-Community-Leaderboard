@@ -185,11 +185,11 @@ def validate_submission(filepath):
                         if not set_val or not isinstance(set_val, str):
                             errors.append(ValidationError(f"{bprefix}.set", "Required field 'set' is missing or empty"))
 
-                        # cost_per_task (optional, must be positive)
-                        cost = score_val.get("cost_per_task")
+                        # cost (optional, must be positive)
+                        cost = score_val.get("cost")
                         if cost is not None:
                             if not isinstance(cost, (int, float)) or cost <= 0:
-                                errors.append(ValidationError(f"{bprefix}.cost_per_task", "Must be a positive number"))
+                                errors.append(ValidationError(f"{bprefix}.cost", "Must be a positive number"))
 
                         # scorecard_url (required for arc-agi-3, optional otherwise)
                         scorecard_url = score_val.get("scorecard_url")

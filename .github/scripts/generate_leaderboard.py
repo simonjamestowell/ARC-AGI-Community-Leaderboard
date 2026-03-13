@@ -26,13 +26,6 @@ END_MARKER = "<!-- LEADERBOARD:END -->"
 
 # Display order for benchmark versions
 ARC_VERSION_ORDER = ["arc-agi-3", "arc-agi-2", "arc-agi-1"]
-
-
-def _numeric_score(score_val):
-    """Extract the numeric score from a score object."""
-    if isinstance(score_val, dict):
-        return score_val.get("score", 0)
-    return 0
 ARC_VERSION_LABELS = {
     "arc-agi-1": "ARC-AGI-1",
     "arc-agi-2": "ARC-AGI-2",
@@ -67,17 +60,29 @@ def load_submissions():
 
         latest = versions[-1]
 
-        # Collect best score per benchmark across all versions
+        # Collect best score per benchmark per set across all versions.
+        # best_scores shape: {benchmark: {set_name: {score, cost, scorecard_url}}}
         best_scores = {}
         all_benchmarks = set()
         for v in versions:
             scores = v.get("scores", {})
-            if isinstance(scores, dict):
-                for benchmark, score_val in scores.items():
-                    all_benchmarks.add(benchmark)
-                    numeric = _numeric_score(score_val)
-                    if benchmark not in best_scores or numeric > best_scores[benchmark]:
-                        best_scores[benchmark] = numeric
+            if not isinstance(scores, dict):
+                continue
+            for benchmark, score_val in scores.items():
+                if not isinstance(score_val, dict):
+                    continue
+                all_benchmarks.add(benchmark)
+                set_name = score_val.get("set", "")
+                numeric = score_val.get("score", 0)
+                if benchmark not in best_scores:
+                    best_scores[benchmark] = {}
+                existing = best_scores[benchmark].get(set_name)
+                if existing is None or numeric > existing["score"]:
+                    best_scores[benchmark][set_name] = {
+                        "score": numeric,
+                        "cost": score_val.get("cost"),
+                        "scorecard_url": score_val.get("scorecard_url"),
+                    }
 
         # Format authors
         authors = data.get("authors", [])
@@ -86,7 +91,7 @@ def load_submissions():
         # Format models from latest version
         models = latest.get("models", [])
         model_str = ", ".join(
-            m.get('name', '?')
+            m.get("name", "?")
             for m in models if isinstance(m, dict)
         )
 
@@ -133,11 +138,13 @@ def generate_table(entries):
     if not entries:
         return "*No submissions yet.*"
 
-    # Group entries by which benchmarks they have scores for
+    # Build a flat list of (set_name, score_data, entry) per benchmark.
+    # A submission with scores on multiple sets appears as multiple rows.
     by_benchmark = defaultdict(list)
     for entry in entries:
-        for benchmark in entry["best_scores"]:
-            by_benchmark[benchmark].append(entry)
+        for benchmark, sets in entry["best_scores"].items():
+            for set_name, score_data in sets.items():
+                by_benchmark[benchmark].append((set_name, score_data, entry))
 
     sections = []
     for arc_ver in ARC_VERSION_ORDER:
@@ -145,21 +152,23 @@ def generate_table(entries):
             continue
 
         label = ARC_VERSION_LABELS.get(arc_ver, arc_ver)
-        benchmark_entries = sorted(
+        # Sort: set name alphabetically, then score descending within each set
+        rows_data = sorted(
             by_benchmark[arc_ver],
-            key=lambda e: e["best_scores"].get(arc_ver, 0),
-            reverse=True,
+            key=lambda x: (x[0], -x[1]["score"]),
         )
 
         header = f"### {label}\n"
-        table_header = "| Rank | Name | Authors | Score | Models | Code |"
-        separator = "|------|------|---------|-------|--------|------|"
+        table_header = "| Rank | Name | Set | Score | Cost | Models | Code |"
+        separator = "|------|------|-----|-------|------|--------|------|"
 
         rows = [header, table_header, separator]
-        for i, entry in enumerate(benchmark_entries, 1):
-            score = entry["best_scores"].get(arc_ver, 0)
+        for i, (set_name, score_data, entry) in enumerate(rows_data, 1):
+            score = score_data["score"]
+            cost = score_data.get("cost")
+            cost_str = f"${cost:.2f}" if cost is not None else "—"
             code_link = f"[Repo]({entry['code_url']})" if entry["code_url"] else ""
-            row = f"| {i} | {entry['name']} | {entry['authors']} | {score}% | {entry['models']} | {code_link} |"
+            row = f"| {i} | {entry['name']} | {set_name} | {score}% | {cost_str} | {entry['models']} | {code_link} |"
             rows.append(row)
 
         sections.append("\n".join(rows))

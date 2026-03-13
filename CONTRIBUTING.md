@@ -44,7 +44,7 @@ Do **not** create a new directory for updates — keep everything in your origin
     - `score` — number 0–100
     - `set` — the eval set used (e.g. `"public"`, `"preview"`, `"private"`)
     - `scorecard_url` — **required for arc-agi-3** (optional for arc-agi-1/arc-agi-2); must resolve if provided
-    - `cost_per_task` — optional; average USD cost per task (positive number)
+    - `cost` — optional; USD cost to achieve score (positive number)
 
 ### Optional Fields
 

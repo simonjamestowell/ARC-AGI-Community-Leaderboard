@@ -38,7 +38,7 @@ twitter_url: ""
 #   Every score entry must be an object with:
 #     score (required)        — number 0-100
 #     set   (required)        — e.g. "public", "preview", "private"
-#     cost_per_task (optional) — average USD cost per task
+#     cost (optional)         — USD cost to achieve score
 #     scorecard_url (optional) — link to scorecard (required for arc-agi-3)
 versions:
   - version: "1.0"
@@ -51,4 +51,4 @@ versions:
         score: 0.0
         set: "public"
         scorecard_url: "https://three.arcprize.org/scorecards/your-scorecard-id"
-        cost_per_task: 0.00
+        cost: 0.00
