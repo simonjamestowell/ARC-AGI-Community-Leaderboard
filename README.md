@@ -7,9 +7,7 @@ A community-driven showcase of methods, harnesses, and approaches for [ARC-AGI](
 ## Leaderboard
 
 <!-- LEADERBOARD:START - Do not remove or modify this section -->
-
-_No submissions yet._
-
+*No submissions yet.*
 <!-- LEADERBOARD:END -->
 
 ## How to Submit
