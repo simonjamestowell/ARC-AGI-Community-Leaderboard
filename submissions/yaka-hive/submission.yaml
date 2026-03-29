@@ -24,16 +24,16 @@ versions:
     changes: "Initial ARC-AGI-3 community leaderboard submission."
     models:
       - name: "YAKA Hive World Model"
-        scores:
-          - benchmark: "arc-agi-3"
-            scorecard_url: "https://arcprize.org/scorecards/a721e6be-3654-4463-aea4-2000c818c99d"
-            set: "public"
-            cost: 0.00
-          - benchmark: "arc-agi-3"
-            scorecard_url: "https://arcprize.org/scorecards/ebe3d845-68ed-4147-88c4-ddc14e2132b1"
-            set: "public"
-            cost: 0.00
-          - benchmark: "arc-agi-3"
-            scorecard_url: "https://arcprize.org/scorecards/f8f98c2d-3de1-4bc9-9a5d-854283f05455"
-            set: "public"
-            cost: 0.00
+    scores:
+      - benchmark: "arc-agi-3"
+        scorecard_url: "https://arcprize.org/scorecards/a721e6be-3654-4463-aea4-2000c818c99d"
+        set: "public"
+        cost: 0.00
+      - benchmark: "arc-agi-3"
+        scorecard_url: "https://arcprize.org/scorecards/ebe3d845-68ed-4147-88c4-ddc14e2132b1"
+        set: "public"
+        cost: 0.00
+      - benchmark: "arc-agi-3"
+        scorecard_url: "https://arcprize.org/scorecards/f8f98c2d-3de1-4bc9-9a5d-854283f05455"
+        set: "public"
+        cost: 0.00
