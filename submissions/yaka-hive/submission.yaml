@@ -1,1 +1,39 @@
+name: YAKA
+authors:
+  - name: Simon Towell
+    affiliation: Independent
+    url: https://x.com/simonyakatowell
+    twitter: https://x.com/simonyakatowell
 
+description: >
+  YAKA is a provider-free deterministic world model agent built on the
+  Oppositional Vector Strategy (OVS) framework and Hive reasoning engine.
+  No LLM. No GPU. No pretraining. The method reads game source structure,
+  extracts irreducible mechanics through recursive compression, builds a
+  minimum deterministic world model, and solves through constraint-satisfying
+  phase execution. All three public ARC-AGI-3 games solved live at $0.00 cost.
+
+citation: ""
+code_url: https://github.com/simonjamestowell/ARC
+paper_url: ""
+twitter_url: https://x.com/simonyakatowell
+
+versions:
+  - version: "1.0"
+    date: 2026-03-28
+    changes: "Initial ARC-AGI-3 community leaderboard submission."
+    models:
+      - name: "YAKA Hive World Model"
+        scores:
+          - benchmark: "arc-agi-3"
+            scorecard_url: "https://arcprize.org/scorecards/a721e6be-3654-4463-aea4-2000c818c99d"
+            set: "public"
+            cost: 0.00
+          - benchmark: "arc-agi-3"
+            scorecard_url: "https://arcprize.org/scorecards/ebe3d845-68ed-4147-88c4-ddc14e2132b1"
+            set: "public"
+            cost: 0.00
+          - benchmark: "arc-agi-3"
+            scorecard_url: "https://arcprize.org/scorecards/f8f98c2d-3de1-4bc9-9a5d-854283f05455"
+            set: "public"
+            cost: 0.00
